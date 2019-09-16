@@ -7,9 +7,17 @@ import Search from './Search';
 function Ingredients() {
   const [userIngredients, setIngredients] = useState([]);
   const addIngredientsHandler = ingredient => {
-    setIngredients(prevIngredients => [
-      ...prevIngredients,
-      { id: Math.random().toString(), ...ingredient }]);
+    fetch('https://react-hooks-ingredients-8facc.firebaseio.com/ingredients.json', {
+      method: 'POST',
+      body: JSON.stringify(ingredient),
+      headers: { 'Content-Type': 'application/json' }
+    }).then(response => {
+      return response.json()
+    }).then(responseData => {
+      setIngredients(prevIngredients => [
+        ...prevIngredients,
+        { id: responseData.name, ...ingredient }]);
+    });
   }
   const removeIngredientsHandler = ingredientId => {
     setIngredients(prevIngredients => prevIngredients.filter((ingredient) => ingredient.id !== ingredientId))
