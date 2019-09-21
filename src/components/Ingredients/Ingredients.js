@@ -36,7 +36,11 @@ function Ingredients() {
     });
   }
   const removeIngredientsHandler = ingredientId => {
-    setIngredients(prevIngredients => prevIngredients.filter((ingredient) => ingredient.id !== ingredientId))
+    fetch(`https://react-hooks-ingredients-8facc.firebaseio.com/ingredients/${ingredientId}.json`, {
+      method: 'DELETE',
+    }).then(response => {
+      setIngredients(prevIngredients => prevIngredients.filter((ingredient) => ingredient.id !== ingredientId))
+    })
   }
   const onSearchIngredientHandler = useCallback(searchedIngredients => {
     setIngredients(searchedIngredients);
